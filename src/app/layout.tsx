@@ -1,5 +1,16 @@
 import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-display",
+});
 
 export const metadata: Metadata = {
   title: "LE RIAD DES DELICES | Fine Dining Restaurant",
@@ -13,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col">
+      <body className={`${inter.variable} ${playfair.variable} min-h-screen flex flex-col`}>
         <main className="flex-1">{children}</main>
       </body>
     </html>
