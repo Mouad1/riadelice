@@ -1,10 +1,15 @@
-export default function Home() {
+import { Hero } from "@/components/home/Hero";
+import { FeaturedMenu } from "@/components/home/FeaturedMenu";
+import { AboutPreview } from "@/components/home/AboutPreview";
+import { ReservationCTA } from "@/components/home/ReservationCTA";
+
+export default function HomePage() {
   return (
-    <div className="container-custom py-20">
-      <h1 className="font-display text-5xl text-primary-400">
-        LE RIAD DES DELICES
-      </h1>
-      <p className="mt-4 text-dark-300">Fine Dining Experience</p>
-    </div>
+    <>
+      <Hero />
+      <FeaturedMenu />
+      <AboutPreview />
+      <ReservationCTA />
+    </>
   );
 }
