@@ -107,7 +107,7 @@ export default function ReservationsPage() {
                         onChange={(e) => setForm({ ...form, partySize: e.target.value })}
                         className="flex-1 rounded-lg border border-dark-600 bg-dark-800 px-4 py-2.5 text-dark-50 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
                       >
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12].map((n) => (
+                        {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
                           <option key={n} value={n}>
                             {n} {n === 1 ? "Guest" : "Guests"}
                           </option>
