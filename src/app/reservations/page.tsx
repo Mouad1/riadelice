@@ -4,9 +4,23 @@ import { useState } from "react";
 import { CalendarDays, Clock, Users, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 
+const partySizeOptions = Array.from({ length: 12 }, (_, i) => i + 1).map((n) => ({
+  value: String(n),
+  label: `${n} ${n === 1 ? "Guest" : "Guests"}`,
+}));
+
+const timeOptions = [
+  { value: "", label: "Select time" },
+  ...["11:30", "12:00", "12:30", "13:00", "13:30",
+      "17:00", "17:30", "18:00", "18:30", "19:00",
+      "19:30", "20:00", "20:30", "21:00"].map((t) => ({ value: t, label: t })),
+];
+
 export default function ReservationsPage() {
+  const today = new Date().toISOString().split("T")[0];
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -14,7 +28,7 @@ export default function ReservationsPage() {
     phone: "",
     date: "",
     time: "",
-    partySize: "2",
+    partySize: 2,
     specialRequests: "",
   });
 
@@ -95,26 +109,14 @@ export default function ReservationsPage() {
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   />
-                  <div className="space-y-1">
-                    <label htmlFor="partySize" className="block text-sm font-medium text-dark-200">
-                      Party Size
-                    </label>
-                    <div className="flex items-center gap-2">
-                      <Users size={18} className="text-dark-400 shrink-0" />
-                      <select
-                        id="partySize"
-                        value={form.partySize}
-                        onChange={(e) => setForm({ ...form, partySize: e.target.value })}
-                        className="flex-1 rounded-lg border border-dark-600 bg-dark-800 px-4 py-2.5 text-dark-50 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                      >
-                        {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
-                          <option key={n} value={n}>
-                            {n} {n === 1 ? "Guest" : "Guests"}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
+                  <Select
+                    label="Party Size"
+                    id="partySize"
+                    icon={Users}
+                    options={partySizeOptions}
+                    value={String(form.partySize)}
+                    onChange={(e) => setForm({ ...form, partySize: Number(e.target.value) })}
+                  />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -122,34 +124,20 @@ export default function ReservationsPage() {
                     label="Date"
                     id="date"
                     type="date"
+                    min={today}
                     required
                     value={form.date}
                     onChange={(e) => setForm({ ...form, date: e.target.value })}
                   />
-                  <div className="space-y-1">
-                    <label htmlFor="time" className="block text-sm font-medium text-dark-200">
-                      Time
-                    </label>
-                    <div className="flex items-center gap-2">
-                      <Clock size={18} className="text-dark-400 shrink-0" />
-                      <select
-                        id="time"
-                        value={form.time}
-                        onChange={(e) => setForm({ ...form, time: e.target.value })}
-                        className="flex-1 rounded-lg border border-dark-600 bg-dark-800 px-4 py-2.5 text-dark-50 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                        required
-                      >
-                        <option value="">Select time</option>
-                        {[
-                          "11:30", "12:00", "12:30", "13:00", "13:30",
-                          "17:00", "17:30", "18:00", "18:30", "19:00",
-                          "19:30", "20:00", "20:30", "21:00",
-                        ].map((t) => (
-                          <option key={t} value={t}>{t}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
+                  <Select
+                    label="Time"
+                    id="time"
+                    icon={Clock}
+                    options={timeOptions}
+                    value={form.time}
+                    onChange={(e) => setForm({ ...form, time: e.target.value })}
+                    required
+                  />
                 </div>
 
                 <div className="space-y-1">

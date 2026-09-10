@@ -5,11 +5,24 @@ import { MenuItem as MenuItemType } from "@/types";
 
 interface MenuItemProps {
   item: MenuItemType;
+  withImage?: boolean;
 }
 
-export function MenuItem({ item }: MenuItemProps) {
+const categoryEmoji: Record<string, string> = {
+  appetizers: "🥗",
+  mains: "🥩",
+  desserts: "🍰",
+  drinks: "🍷",
+};
+
+export function MenuItem({ item, withImage = false }: MenuItemProps) {
   return (
     <Card className="group hover:border-primary-500/50 transition-all duration-300">
+      {withImage && (
+        <div className="aspect-[4/3] bg-dark-700 rounded-t-xl flex items-center justify-center">
+          <span className="text-4xl">{categoryEmoji[item.category]}</span>
+        </div>
+      )}
       <CardContent>
         <div className="flex justify-between items-start mb-3">
           <div className="flex-1">

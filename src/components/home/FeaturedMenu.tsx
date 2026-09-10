@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
-import { formatCurrency } from "@/lib/utils";
+import { MenuItem } from "@/components/menu/MenuItem";
 import { menuItems } from "@/data/menu";
 
 export function FeaturedMenu() {
@@ -22,34 +20,7 @@ export function FeaturedMenu() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {featured.map((item) => (
-            <Card key={item.id} className="group hover:border-primary-500/50 transition-all duration-300">
-              <div className="aspect-[4/3] bg-dark-700 rounded-t-xl flex items-center justify-center">
-                <span className="text-4xl">
-                  {item.category === "appetizers" && "🥗"}
-                  {item.category === "mains" && "🥩"}
-                  {item.category === "desserts" && "🍰"}
-                  {item.category === "drinks" && "🍷"}
-                </span>
-              </div>
-              <CardContent>
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-semibold text-dark-50 group-hover:text-primary-400 transition-colors">
-                    {item.name}
-                  </h3>
-                  <span className="text-primary-400 font-bold">
-                    {formatCurrency(item.price)}
-                  </span>
-                </div>
-                <p className="text-dark-400 text-sm mb-3">{item.description}</p>
-                <div className="flex gap-1">
-                  {item.dietary.map((d) => (
-                    <Badge key={d} variant="success" className="text-[10px]">
-                      {d}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <MenuItem key={item.id} item={item} withImage />
           ))}
         </div>
 
