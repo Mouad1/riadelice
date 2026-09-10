@@ -25,7 +25,7 @@ class Store {
     return newItem;
   }
 
-  updateMenuItem(id: string, updates: Partial<MenuItem>): MenuItem | null {
+  updateMenuItem(id: string, updates: Omit<Partial<MenuItem>, "id" | "createdAt">): MenuItem | null {
     const index = this._menuItems.findIndex((item) => item.id === id);
     if (index === -1) return null;
     this._menuItems[index] = { ...this._menuItems[index], ...updates };
