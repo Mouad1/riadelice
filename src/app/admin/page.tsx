@@ -1,30 +1,39 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { ClipboardList, CalendarCheck, UtensilsCrossed, Grid3X3 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { store } from "@/lib/store";
 
 export default function AdminDashboard() {
+  const [orders, setOrders] = useState(store.getOrders());
+  const [reservations, setReservations] = useState(store.getReservations());
+  const [menuCount] = useState(store.getMenuItems().length);
+  const [availableTables] = useState(
+    store.getTables().filter((t) => t.status === "available").length
+  );
+
+  useEffect(() => {
+    const refresh = () => {
+      setOrders([...store.getOrders()]);
+      setReservations([...store.getReservations()]);
+    };
+    window.addEventListener("focus", refresh);
+    return () => window.removeEventListener("focus", refresh);
+  }, []);
+
   const stats = [
-    {
-      label: "Menu Items",
-      value: store.getMenuItems().length,
-      icon: UtensilsCrossed,
-      color: "text-blue-400",
-    },
-    {
-      label: "Available Tables",
-      value: store.getTables().filter((t) => t.status === "available").length,
-      icon: Grid3X3,
-      color: "text-green-400",
-    },
+    { label: "Menu Items", value: menuCount, icon: UtensilsCrossed, color: "text-blue-400" },
+    { label: "Available Tables", value: availableTables, icon: Grid3X3, color: "text-green-400" },
     {
       label: "Pending Orders",
-      value: store.getOrders().filter((o) => o.status === "pending").length,
+      value: orders.filter((o) => o.status === "pending").length,
       icon: ClipboardList,
       color: "text-yellow-400",
     },
     {
       label: "Pending Reservations",
-      value: store.getReservations().filter((r) => r.status === "pending").length,
+      value: reservations.filter((r) => r.status === "pending").length,
       icon: CalendarCheck,
       color: "text-purple-400",
     },
@@ -54,11 +63,11 @@ export default function AdminDashboard() {
         <Card>
           <CardContent>
             <h2 className="font-semibold text-dark-50 mb-4">Recent Orders</h2>
-            {store.getOrders().length === 0 ? (
+            {orders.length === 0 ? (
               <p className="text-dark-400 text-sm">No orders yet</p>
             ) : (
               <div className="space-y-3">
-                {store.getOrders().slice(0, 5).map((order) => (
+                {orders.slice(0, 5).map((order) => (
                   <div key={order.id} className="flex justify-between items-center p-3 rounded-lg bg-dark-700/50">
                     <span className="text-dark-200">Table {order.tableId}</span>
                     <span className={`text-xs px-2 py-1 rounded-full ${
@@ -78,11 +87,11 @@ export default function AdminDashboard() {
         <Card>
           <CardContent>
             <h2 className="font-semibold text-dark-50 mb-4">Recent Reservations</h2>
-            {store.getReservations().length === 0 ? (
+            {reservations.length === 0 ? (
               <p className="text-dark-400 text-sm">No reservations yet</p>
             ) : (
               <div className="space-y-3">
-                {store.getReservations().slice(0, 5).map((res) => (
+                {reservations.slice(0, 5).map((res) => (
                   <div key={res.id} className="flex justify-between items-center p-3 rounded-lg bg-dark-700/50">
                     <div>
                       <span className="text-dark-200">{res.customerName}</span>

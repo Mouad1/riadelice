@@ -17,14 +17,20 @@ export function MenuForm({ item, onSubmit, onCancel }: MenuFormProps) {
     name: item?.name || "",
     description: item?.description || "",
     price: item?.price || 0,
-    category: item?.category || "mains",
+    category: item?.category || ("mains" as MenuItem["category"]),
     available: item?.available ?? true,
-    dietary: item?.dietary || [],
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(form as Omit<MenuItem, "id" | "createdAt">);
+    onSubmit({
+      name: form.name,
+      description: form.description,
+      price: form.price,
+      category: form.category,
+      available: form.available,
+      dietary: item?.dietary ?? [],
+    });
   };
 
   return (

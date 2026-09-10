@@ -12,7 +12,7 @@ class Store {
 
   // Menu
   getMenuItems(): MenuItem[] {
-    return this._menuItems;
+    return [...this._menuItems];
   }
 
   addMenuItem(item: Omit<MenuItem, "id" | "createdAt">): MenuItem {
@@ -41,7 +41,7 @@ class Store {
 
   // Tables
   getTables(): Table[] {
-    return this._tables;
+    return [...this._tables];
   }
 
   updateTableStatus(id: string, status: Table["status"]): Table | null {
@@ -53,7 +53,7 @@ class Store {
 
   // Reservations
   getReservations(): Reservation[] {
-    return this._reservations;
+    return [...this._reservations];
   }
 
   addReservation(res: Omit<Reservation, "id" | "createdAt" | "status">): Reservation {
@@ -79,7 +79,7 @@ class Store {
 
   // Orders
   getOrders(): Order[] {
-    return this._orders;
+    return [...this._orders];
   }
 
   addOrder(order: Omit<Order, "id" | "createdAt">): Order {
