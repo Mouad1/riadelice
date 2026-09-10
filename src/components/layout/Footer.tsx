@@ -50,8 +50,8 @@ export function Footer() {
                 </div>
               ))}
               <div className="flex justify-between gap-4 text-primary-400 font-medium pt-1">
-                <span>Weekend</span>
-                <span>{restaurant.hours[5].open} - {restaurant.hours[5].close}</span>
+                <span>Sat - Sun</span>
+                <span>{restaurant.hours[5].open} - {restaurant.hours[6].close}</span>
               </div>
             </div>
           </div>
