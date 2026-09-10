@@ -8,8 +8,8 @@ import { store } from "@/lib/store";
 export default function AdminDashboard() {
   const [orders, setOrders] = useState(store.getOrders());
   const [reservations, setReservations] = useState(store.getReservations());
-  const [menuCount] = useState(store.getMenuItems().length);
-  const [availableTables] = useState(
+  const [menuCount, setMenuCount] = useState(store.getMenuItems().length);
+  const [availableTables, setAvailableTables] = useState(
     store.getTables().filter((t) => t.status === "available").length
   );
 
@@ -17,6 +17,8 @@ export default function AdminDashboard() {
     const refresh = () => {
       setOrders([...store.getOrders()]);
       setReservations([...store.getReservations()]);
+      setMenuCount(store.getMenuItems().length);
+      setAvailableTables(store.getTables().filter((t) => t.status === "available").length);
     };
     window.addEventListener("focus", refresh);
     return () => window.removeEventListener("focus", refresh);

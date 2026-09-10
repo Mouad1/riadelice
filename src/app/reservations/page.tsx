@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CalendarDays, Clock, Users, CheckCircle } from "lucide-react";
+import { store } from "@/lib/store";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
@@ -34,7 +35,15 @@ export default function ReservationsPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Connect to store/API
+    store.addReservation({
+      customerName: form.name,
+      email: form.email,
+      phone: form.phone,
+      date: form.date,
+      time: form.time,
+      partySize: form.partySize,
+      specialRequests: form.specialRequests || undefined,
+    });
     setSubmitted(true);
   };
 
